@@ -13,10 +13,7 @@ export default function OrdersTab({isOwnProfile, userId}) {
     const [showComplaintForm, setShowComplaintForm] = useState(false);
     const [complaintDescription, setComplaintDescription] = useState("");
     const [selectedOrder, setSelectedOrder] = useState(null);
-
-    useEffect(() => {
-        console.log(userId);
-    })
+    
 
     const loadOrders = async () => {
         try {
@@ -102,6 +99,7 @@ export default function OrdersTab({isOwnProfile, userId}) {
                             <p><strong>Цена:</strong> {order.price}₽</p>
                             <p><strong>Описание:</strong> {order.description}</p>
                             <p><strong>Статус:</strong> {statuses[order.status]}</p>
+                            <p><strong>Последнее обновление:</strong> {new Date(order.updated_at).toLocaleString()}</p>
                             <div className="flex gap-2 mt-2">
                                 {role === "customer" && (
                                     <button
