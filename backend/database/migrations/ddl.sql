@@ -163,3 +163,22 @@ FOR EACH ROW
 EXECUTE FUNCTION update_order_updated_at();
 
 COMMENT ON TRIGGER set_order_updated_at ON orders IS 'Обновляет поле updated_at при изменении строки';
+
+
+CREATE OR REPLACE VIEW specialists AS
+SELECT	user_id,
+        email,
+        created_at,
+        first_name,
+        last_name,
+        phone,
+        birth_date,
+        experience,
+        rating,
+        description,
+        specialties.title
+FROM specialist_profiles
+         JOIN specialist_specialties ON (specialist_profiles.user_id = specialist_specialties.specialist_id)
+         JOIN specialties ON (specialist_specialties.specialty_id = specialties.specialty_id)
+         JOIN users USING (user_id);
+

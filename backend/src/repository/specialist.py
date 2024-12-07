@@ -25,7 +25,8 @@ class SpecialistProfileRepository:
 
     async def get_specialists(self) -> List[Dict]:
         query = """
-        SELECT  user_id,
+        SELECT DISTINCT ON(user_id)  
+                user_id,
                 email,
                 created_at,
                 first_name,
@@ -35,8 +36,7 @@ class SpecialistProfileRepository:
                 experience,
                 rating,
                 description
-        FROM specialist_profiles
-            JOIN users USING (user_id);
+        FROM specialists
         """
         records = await self.connection.fetch(query)
         return [dict(record) for record in records]
@@ -53,11 +53,8 @@ class SpecialistProfileRepository:
                 experience,
                 rating,
                 description
-        FROM specialist_profiles
-            JOIN specialist_specialties ON (specialist_profiles.user_id = specialist_specialties.specialist_id)
-            JOIN specialties ON (specialist_specialties.specialty_id = specialties.specialty_id)
-            JOIN users USING (user_id)
-        WHERE specialties.title = $1;
+        FROM specialists
+        WHERE title = $1;
         """
         records = await self.connection.fetch(query, speciality_title)
         return [dict(record) for record in records]
@@ -74,8 +71,7 @@ class SpecialistProfileRepository:
                     experience,
                     rating,
                     description
-            FROM specialist_profiles
-                JOIN users USING (user_id)
+            FROM specialists
             WHERE user_id = $1;
             """
         record = await self.connection.fetchrow(query, specialist_id)
