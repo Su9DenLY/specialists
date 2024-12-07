@@ -1,0 +1,30 @@
+[tool.poetry.scripts]
+init_db = "database.init_db:run"
+main = "src.main:main"
+
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["sky <terebaev1234@gmail.com>"]
+readme = "README.md"
+packages = [
+    { include = "backend" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["all"], version = "^0.115.5"}
+uvicorn = {extras = ["standard"], version = "^0.32.1"}
+sqlalchemy = "^2.0.36"
+asyncpg = "^0.30.0"
+python-dotenv = "^1.0.1"
+psycopg2 = "^2.9.10"
+pydantic = "^2.10.2"
+bcrypt = "^4.2.1"
+pyjwt = "^2.10.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
